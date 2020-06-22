@@ -1,0 +1,109 @@
+/* -------------------------------------------------------
+ *
+ *     These are my modifications to the xaringanthemer
+ *
+ * ------------------------------------------------------- */
+@import url(https://fonts.googleapis.com/css?family=Lato);
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+
+.remark-slide-content {
+  font-size: 30px;
+}
+body {
+  font-family: 'Lato';
+  font-weight: normal;
+  color: #657b83;
+}
+h1 {
+  font-family: 'Lato';
+  font-weight: bold;
+  color: #285415;
+}
+h2, h3 {
+  font-family: 'Lato';
+  font-weight: normal;
+  color: #686CA9;
+}
+a {
+  color: #CFA118;
+}
+.inverse-nopad {
+  background-color: #002b36;
+  color: #fdf6e3;
+  padding: 0;
+}
+.inverse h1 {
+  font-family: 'Lato';
+  font-weight: normal;
+  color: #EAE49A;
+}
+.inverse h2 {
+  font-family: 'Lato';
+  font-weight: normal;
+  color: #CFA118;
+}
+.inverse h3 {
+  font-family: 'Lato';
+  font-weight: normal;
+  color: #BCACDB;
+}
+li { line-height: 1.85em; }
+li p { line-height: 1.25em; }
+ul li {
+  list-style-type: none;
+}
+ul li li {
+  list-style-type: none;
+}
+ul li:before {
+  content: "\f06c";
+  font-family: "FontAwesome";
+  margin-right: 10px;
+  color: #686CA9;
+}
+ul li li:before {
+  content: "\f1bb";
+  font-family: "FontAwesome";
+  margin-right: 10px;
+  color: #CFA118;
+}
+.footnote {
+  position: absolute;
+  bottom: 3em;
+  padding-right: 4em;
+  font-size: 0.5em;
+}
+strong{color:#686CA9;}
+.remark-slide table thead th { border-bottom: 1px solid #839496; }
+th, td { padding: 5px; }
+.remark-slide table, td{
+  margin: auto;
+  border: 1px solid #839496;
+}
+.remark-slide thead, .remark-slide tfoot, .remark-slide tr:nth-child(even) { background: #EAE49A }
+.purple { color: #686CA9; }
+.orange { color: #9A6902; }
+.blue { color: #72879C; }
+.yellow { color: #CFA118; }
+.green { color: #568000; }
+
+.large { font-size: 2em; }
+.small { font-size: 0.9em; }
+.tiny { font-size: 0.5em; }
+
+.left-code {
+  color: #777;
+  width: 48%;
+  height: 92%;
+  float: left;
+}
+.left-plot {
+  width: 49%;
+  float: left;
+  padding-right: 1%;
+}
+.right-plot {
+  width: 49%;
+  float: right;
+  padding-left: 1%;
+}
