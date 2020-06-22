@@ -41,6 +41,8 @@ background-size: 55%
 
 ### vISEC <br> June 22, 2020
 
+[https://dicook.org/files/vISEC2020/slides_tourr.html](https://dicook.org/files/vISEC2020/slides_tourr.html)
+
 <br>
 <br>
 <br>
@@ -135,6 +137,12 @@ sessionInfo()
 ]
 
 ---
+
+Grab the `runthis.R` file from [https://github.com/dicook/vISEC2020](https://github.com/dicook/vISEC2020)
+
+in the `skills_showcase` folder. (Or the `slides_tour.Rmd` for everything!)
+
+---
 class: inverse middle center
 
 # Get some new data
@@ -196,7 +204,7 @@ ggplot(penguins,
 .right-plot[
 
 
-```{r runthis4, fig.width=5, fig.height=5, out.width="100%"}
+```{r runthis5, fig.width=5, fig.height=5, out.width="100%"}
 # remotes::install_github("ropenscilabs/ochRe")
 library(ochRe)
 ggplot(penguins, 
@@ -221,7 +229,7 @@ class: inverse middle center
 ---
 
 .left-code[
-```{r echo=TRUE, eval=FALSE}
+```{r runthis6, echo=TRUE, eval=FALSE}
 clrs <- ochre_pal(
   palette="nolan_ned")(3)
 col <- clrs[
@@ -333,14 +341,17 @@ class: inverse middle center
 
 .left-plot[
 
-```{r eval=FALSE}
+```{r runthis7, eval=FALSE}
 sphere1 <- sphere.hollow(p=4)$points %>% as_tibble()
+animate_xy(sphere1, axes="bottomleft")
+```
 
+```{r eval=FALSE}
 render_gif(sphere1, grand_tour(), 
            display_xy(axes="bottomleft"), 
            "sphere4d_1.gif", frames=100, width=400, height=400)
-animate_xy(sphere1, axes="bottomleft")
 ```
+
 
 Hollow
 
@@ -349,15 +360,19 @@ Hollow
 
 .right-plot[
 
-
+```{r runthis8, eval=FALSE}
+sphere2 <- sphere.solid.random(p=4)$points %>% as_tibble()
+animate_xy(sphere2, axes="bottomleft")
+```
 
 ```{r eval=FALSE}
-sphere2 <- sphere.solid.random(p=4)$points %>% as_tibble()
 render_gif(sphere2, grand_tour(), 
            display_xy(axes="bottomleft"), 
            "sphere4d_2.gif", frames=100, width=400, height=400)
-animate_xy(sphere2, axes="bottomleft")
 ```
+
+
+
 Solid
 
 <img src="sphere4d_2.gif" width="70%">
@@ -369,14 +384,17 @@ Solid
 
 .left-plot[
 
-```{r eval=FALSE}
+```{r runthis9, eval=FALSE}
 cube1 <- cube.face(p=4)$points %>% as_tibble()
+animate_xy(cube1, axes="bottomleft")
+```
 
+```{r eval=FALSE}
 render_gif(cube1, grand_tour(), 
            display_xy(axes="bottomleft"), 
            "cube4d_1.gif", frames=100, width=400, height=400)
-animate_xy(cube1, axes="bottomleft")
 ```
+
 
 Hollow
 
@@ -387,13 +405,19 @@ Hollow
 
 
 
-```{r eval=FALSE}
+```{r runthis10, eval=FALSE}
 cube2 <- cube.solid.random(p=4)$points %>% as_tibble()
+animate_xy(cube2, axes="bottomleft")
+```
+
+```{r eval=FALSE}
 render_gif(cube2, grand_tour(), 
            display_xy(axes="bottomleft"), 
            "cube4d_2.gif", frames=100, width=400, height=400)
-animate_xy(cube2, axes="bottomleft")
+
 ```
+
+
 Solid
 
 <img src="cube4d_2.gif" width="70%">
@@ -405,14 +429,17 @@ Solid
 
 .left-plot[
 
-```{r eval=FALSE}
+```{r runthis11, eval=FALSE}
 torus <- torus(p = 4, n = 5000, radius=c(8, 4, 1))$points %>% as_tibble()
+animate_xy(torus, axes="bottomleft")
+```
 
+```{r eval=FALSE}
 render_gif(torus, grand_tour(), 
            display_xy(axes="bottomleft"), 
            "torus4d.gif", frames=100, width=400, height=400)
-animate_xy(torus, axes="bottomleft")
 ```
+
 
 Torus
 
@@ -422,14 +449,19 @@ Torus
 .right-plot[
 
 
+```{r runthis12, eval=FALSE}
+mobius <- mobius()$points %>% as_tibble()
+animate_xy(mobius, axes="bottomleft")
+```
 
 ```{r eval=FALSE}
-mobius <- mobius()$points %>% as_tibble()
 render_gif(mobius, grand_tour(), 
            display_xy(axes="bottomleft"), 
            "mobius.gif", frames=100, width=400, height=400)
-animate_xy(mobius, axes="bottomleft")
 ```
+
+
+
 Mobius
 
 <img src="mobius.gif" width="70%">
@@ -526,7 +558,7 @@ save_html(pg, file="penguins.html")
 ---
 
 .left-plot[
-```{r fig.width=4, fig.height=4, out.width="90%"}
+```{r runthis13, fig.width=4, fig.height=4, out.width="90%"}
 ggplot(penguins, 
    aes(x=flipper_length_mm, 
        y=bill_depth_mm,
@@ -544,7 +576,7 @@ Gentoo from others in contrast of fl, bd
 ]
 .right-plot[
 
-```{r fig.width=4, fig.height=4, out.width="90%"}
+```{r runthis14, fig.width=4, fig.height=4, out.width="90%"}
 ggplot(penguins, 
    aes(x=bill_length_mm, 
        y=body_mass_g,
@@ -610,6 +642,9 @@ render_gif(penguins[,3:6], guided_tour(lda_pp(penguins$species)),
            display_xy(col=col, axes="bottomleft"), 
            "penguins2d_guided.gif", 
            frames=17, width=300, height=300, loop=FALSE)
+```
+
+```{r runthis15, eval=FALSE}
 animate_xy(penguins[,3:6], grand_tour(),
            axes = "bottomleft", col=col)
 animate_xy(penguins[,3:6], guided_tour(lda_pp(penguins$species)),
@@ -700,6 +735,9 @@ render_gif(penguins[,3:6], local_tour(start=best_proj, 0.9),
            display_xy(col=col, axes="bottomleft"), 
            "penguins2d_local.gif", 
            frames=200, width=300, height=300)
+```
+
+```{r runthis16, eval=FALSE}
 animate_xy(penguins[,3:6], local_tour(start=best_proj, 0.9),
            axes = "bottomleft", col=col)
 ```
@@ -726,7 +764,9 @@ render_gif(penguins[,3:6], grand_tour(),
            display_density2d(col=col, axes="bottomleft"), 
            "penguins2d_dens.gif", 
            frames=100, width=300, height=300)
+```
 
+```{r runthis17, eval=FALSE}
 animate_dist(penguins[,3:6], half_range=1.3)
 animate_density2d(penguins[,3:6], col=col, axes="bottomleft")
 ```
@@ -814,6 +854,6 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
 
-Slides are available at [https://dicook.org/files/vISEC20/slides_tourr.html](https://dicook.org/files/vISEC20/tourr.html) and supporting files at [https://github.com/dicook/vISEC20](https://github.com/dicook/vISEC20).
+Slides are available at [https://dicook.org/files/vISEC20/slides_tourr.html](https://dicook.org/files/vISEC20/slides_tourr.html) and supporting files at [https://github.com/dicook/vISEC2020](https://github.com/dicook/vISEC2020).
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
