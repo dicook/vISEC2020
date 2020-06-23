@@ -275,6 +275,8 @@ class: inverse middle center
 # Pretend you haven't seen the data plot
 
 ---
+# Which plot is different from the rest?
+
 .left-code[
 ```{r echo=TRUE, eval=FALSE}
 set.seed(20200624)
@@ -288,12 +290,13 @@ ggplot(l) +
   facet_wrap(~.sample, ncol=2) + 
   theme_map() + xlab("") + ylab("") +
   theme(aspect.ratio=1, legend.position = "none") 
-
 ```
+
+
 ]
 
 .right-plot[
-```{r fig.width=3, fig.height=4, out.width="100%"}
+```{r fig.width=3, fig.height=3, out.width="100%"}
 set.seed(20200624)
 library(nullabor)
 l1 <- lineup(null_permute("sighted"), rsf1, n=4)
@@ -306,6 +309,10 @@ ggplot(l1) +
   theme_map() + xlab("") + ylab("") +
   theme(aspect.ratio=1, legend.position = "none") 
 ```
+--
+
+You say 1? Oh, that is the data plot. 
+
 ]
 
 ---
@@ -324,7 +331,7 @@ ggplot(l) +
   theme(aspect.ratio=1, legend.position = "none")
 ```
 
-In which plot is the light brown bar on the right the tallest?
+*In which plot is the light brown bar on the right the tallest?*
 
 ]
 .right-plot[
@@ -340,11 +347,15 @@ ggplot(l2) +
   theme_void() + 
   theme(aspect.ratio=1, legend.position = "none")
 ```
+
+Did you say 5? You're good! That's the data plot again.
+
 ]
 
 ---
+class: inverse middle center
 
-In each case the data plot was identifiable, reject the null hypothesis
+# In each case the data plot was identifiable, which leads to rejecting the null hypothesis
 
 ---
 class: inverse middle center
@@ -352,8 +363,81 @@ class: inverse middle center
 # Visual inference broadens the scope of statistics
 
 ---
+class: inverse middle center
 
-Let's do a real one:wasps
+# Let's do a real lineup test
+
+---
+# Lineup protocol
+
+I'm going to show you a page of plots
+
+--
+
+Each has a `r anicon::nia("number", size=1, speed="slow", animate="vertical", colour="#75A34D")` above it, this is its id
+
+--
+
+Choose the plot that you think exhibits the `r anicon::nia("most separation", size=1, speed="slow", animate="vertical", colour="#75A34D")` between groups
+
+--
+
+*If you really need to choose more than one, or even not choose any, that is ok, too*
+
+--
+
+`r anicon::nia("Ready?", size=2, speed="slow", animate="vertical", colour="#75A34D")`
+
+---
+
+```{r lineup of the wasps, out.width="100%", fig.width=9, fig.height=4.5}
+wasp.lda <- lda(Group~., data=wasps[,-1])
+wasp.ld <- predict(wasp.lda, dimen=2)$x
+true <- data.frame(wasp.ld, Group=wasps$Group)
+
+set.seed(20190823)
+wasp.sim <- data.frame(LD1=NULL, LD2=NULL, Group=NULL, .n=NULL)
+for (i in 1:20) {
+  x <- wasps
+  x$Group <- sample(x$Group)
+  x.lda <- lda(Group~., data=x[,-1])
+  x.ld <- predict(x.lda, dimen=2)$x
+  sim <- data.frame(x.ld, Group=x$Group, .n=i)
+  wasp.sim <- rbind(wasp.sim, sim)
+}
+
+pos <- sample(1:21, 1)
+d <- lineup(true=true, samples=wasp.sim, pos=pos)
+ggplot(d, aes(x=LD1, y=LD2, colour=Group)) + 
+  facet_wrap(~.sample, ncol=7, scales = "free") +
+  geom_point() + 
+  scale_colour_brewer(palette="Dark2") +
+  theme(aspect.ratio=1, legend.position="none",
+        axis.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        panel.spacing.x=unit(1, "lines"),
+        panel.spacing.y=unit(1, "lines"))
+```
+
+`r countdown::countdown(1, font_size="1em", top="85%", left="45%")`
+---
+
+.pull-left[
+The data plot is 
+
+```{r true wasp data plot, out.width="90%", fig.width=3, fig.height=4}
+ggplot(true, aes(x=LD1, y=LD2, colour=Group)) + 
+  geom_point() + 
+  scale_colour_brewer(palette="Dark2") +
+  theme(aspect.ratio=1, legend.position="bottom")
+```
+]
+.pull-right[
+<img src="images/toth_PRSB_2010.png" style="width: 90%; align: center" />
+
+It is the same data, as shown before. But I think that no-one noticed this. 
+]
 
 ---
 

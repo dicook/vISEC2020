@@ -6,6 +6,8 @@
     <meta name="author" content="Di Cook" />
     <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
     <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="mytheme.css" type="text/css" />
   </head>
@@ -150,8 +152,8 @@ For sighted vs forest habitate the *mapping requires call to* `stat=count`:
 ## # Groups:   sighted [2]
 ##   sighted forest count
 ##   &lt;lgl&gt;   &lt;lgl&gt;  &lt;int&gt;
-## 1 FALSE   FALSE   1176
-## 2 FALSE   TRUE     324
+## 1 FALSE   FALSE   1201
+## 2 FALSE   TRUE     299
 ## 3 TRUE    FALSE    560
 ## 4 TRUE    TRUE     266
 ```
@@ -237,6 +239,8 @@ class: inverse middle center
 # Pretend you haven't seen the data plot
 
 ---
+# Which plot is different from the rest?
+
 .left-code[
 
 ```r
@@ -252,10 +256,16 @@ ggplot(l) +
   theme_map() + xlab("") + ylab("") +
   theme(aspect.ratio=1, legend.position = "none") 
 ```
+
+
 ]
 
 .right-plot[
 &lt;img src="slides_files/figure-html/unnamed-chunk-10-1.png" width="100%" /&gt;
+--
+
+You say 1? Oh, that is the data plot. 
+
 ]
 
 ---
@@ -275,16 +285,20 @@ ggplot(l) +
   theme(aspect.ratio=1, legend.position = "none")
 ```
 
-In which plot is the light brown bar on the right the tallest?
+*In which plot is the light brown bar on the right the tallest?*
 
 ]
 .right-plot[
 &lt;img src="slides_files/figure-html/unnamed-chunk-12-1.png" width="100%" /&gt;
+
+Did you say 5? You're good! That's the data plot again.
+
 ]
 
 ---
+class: inverse middle center
 
-In each case the data plot was identifiable, reject the null hypothesis
+# In each case the data plot was identifiable, which leads to rejecting the null hypothesis
 
 ---
 class: inverse middle center
@@ -292,8 +306,50 @@ class: inverse middle center
 # Visual inference broadens the scope of statistics
 
 ---
+class: inverse middle center
 
-Let's do a real one:wasps
+# Let's do a real lineup test
+
+---
+# Lineup protocol
+
+I'm going to show you a page of plots
+
+--
+
+Each has a <span class=" faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">number</span> above it, this is its id
+
+--
+
+Choose the plot that you think exhibits the <span class=" faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">most separation</span> between groups
+
+--
+
+*If you really need to choose more than one, or even not choose any, that is ok, too*
+
+--
+
+<span class="fa-2x faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">Ready?</span>
+
+---
+
+&lt;img src="slides_files/figure-html/lineup of the wasps-1.png" width="100%" /&gt;
+
+<div class="countdown" id="timer_5ef1a453" style="top:85%;left:45%;font-size:1em;" data-warnwhen="0">
+<code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+---
+
+.pull-left[
+The data plot is 
+
+&lt;img src="slides_files/figure-html/true wasp data plot-1.png" width="90%" /&gt;
+]
+.pull-right[
+&lt;img src="images/toth_PRSB_2010.png" style="width: 90%; align: center" /&gt;
+
+It is the same data, as shown before. But I think that no-one noticed this. 
+]
 
 ---
 
