@@ -693,8 +693,157 @@ background-position: 50% 50%
 background-size: contain
 
 ---
+class: inverse middle center
 
-Computer vision experiments
+Bring on deep learning, and computer vision models
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+]
+.right-plot[
+
+$H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0$
+
+Linear vs no relationship (null)
+
+]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+]
+.pull-right[
+
+Simulation 
+
+$$Y_i = \beta_0 + \beta_1 X_{i}  + \varepsilon_i, ~~i=1, \dots , n$$
+
+- $X \sim N[0,\ 1]$
+- $\beta_0 = 0$ (intercept)
+- $\beta_1\sim U[-10, -0.1] \bigcup [0.1, 10]$  (linear, null when $\beta_1=0$)
+- $\varepsilon\sim N(0, \sigma^2) \ where\ \sigma \sim U[1,12]$ 
+- $n=U[50,500]$  
+- 200,000 from each linear and null scenario generated
+
+<img src="images/covnet3.png" style="width: 50%; align: center" />
+
+]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+]
+.pull-right[
+
+### Computer model prediction
+
+- Re-generate the 70 *data plots* using the same data in Turk study (without null plots)
+- Use the computer model to predict whether the 70 data plots were "linear" or "null"
+- The computer model's predicted accuracy over the 70 data plots are recorded as the model's performance.
+]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+]
+.pull-right[
+
+### Human subjects results
+
+- Calculate $p$-value associated with each lineup using the binomial formula (from Majumder), with $N$=number of evaluations and k=number of people choosing data plot
+- Draw conclusion: reject the null when the calculated $p$-value is smaller than $\alpha$.
+- The accuracy of the conclusions over the 70 lineups 
+]
+
+--
+
+## Experiment repeated
+
+---
+# Repeat of experiment
+
+Using same sample of $n$, $\beta$, $\sigma$, new data generated, and images created numerically by binning (to 30x30 pixels), counting and scaling counts to 0-255.
+
+Keras model fitted with 60,000 training images for each class, linear and not.
+
+Accuracy with simulated test data, 93%. Null error 0.0179, linear error 0.1176
+
+.footnote[Code available in the file `keras_correlation.r`]
+--
+
+.pink[Its blindingly fast!]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+### Results
+]
+.right-plot[
+
+# Results 1
+
+<img src="images/results.png" width="100%" />
+
+.pink[Humans beat computers.] 
+
+]
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+### Results
+]
+.right-plot[
+
+# Results 2
+
+<img src="images/new_computer_v_human.png" width="80%" />
+
+.pink[Humans beat computers, and match the power of the theoretical t-test (uniformly most powerful test).]
+
+]
+---
+# Comparison of human and computer. 
+ 
+<table>
+<tr> <th> </th> <th> </th> <th colspan="2"> Computer </th> </tr>
+<tr> <th> </th> <th>  </th> <th> Not </th> <th> Linear </th> </th> </tr>
+<tr> <th rowspan="2"> Human </th> <th> Not </th> <td> 27 </td> <td> 0 </td> </tr>
+<tr>  <th> Linear </th> <td> 15 </td> <td> 28 </td> </tr>
+</table>
+
+<br>
+<br>
+
+.pink[Computer tends to predict too many as not linear.]
+
+---
+# Thanks for listening!
+
+Here's what I hope you heard:
+
+- Plots can be embedded into an inferential framework
+- This extends the applicability of statistics to more complex problems
+- Crowd-sourcing can help mange plot evaluation
+- Computer vision models are promising ways to scale up
+
+---
+# Additional reading
 
 ---
 class: middle

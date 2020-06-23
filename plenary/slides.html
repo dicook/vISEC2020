@@ -153,8 +153,8 @@ For sighted vs forest habitate the *mapping requires call to* `stat=count`:
 ## # Groups:   sighted [2]
 ##   sighted forest count
 ##   &lt;lgl&gt;   &lt;lgl&gt;  &lt;int&gt;
-## 1 FALSE   FALSE   1185
-## 2 FALSE   TRUE     315
+## 1 FALSE   FALSE   1180
+## 2 FALSE   TRUE     320
 ## 3 TRUE    FALSE    560
 ## 4 TRUE    TRUE     266
 ```
@@ -336,7 +336,7 @@ Choose the plot that you think exhibits the <span class=" faa-vertical animated 
 
 &lt;img src="slides_files/figure-html/lineup of the wasps-1.png" width="100%" /&gt;
 
-<div class="countdown" id="timer_5ef1b47e" style="top:85%;left:45%;font-size:1em;" data-warnwhen="0">
+<div class="countdown" id="timer_5ef1ba1c" style="top:85%;left:45%;font-size:1em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 ---
@@ -744,8 +744,157 @@ background-position: 50% 50%
 background-size: contain
 
 ---
+class: inverse middle center
 
-Computer vision experiments
+Bring on deep learning, and computer vision models
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+]
+.right-plot[
+
+`\(H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0\)`
+
+Linear vs no relationship (null)
+
+]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+]
+.pull-right[
+
+Simulation 
+
+`$$Y_i = \beta_0 + \beta_1 X_{i}  + \varepsilon_i, ~~i=1, \dots , n$$`
+
+- `\(X \sim N[0,\ 1]\)`
+- `\(\beta_0 = 0\)` (intercept)
+- `\(\beta_1\sim U[-10, -0.1] \bigcup [0.1, 10]\)`  (linear, null when `\(\beta_1=0\)`)
+- `\(\varepsilon\sim N(0, \sigma^2) \ where\ \sigma \sim U[1,12]\)` 
+- `\(n=U[50,500]\)`  
+- 200,000 from each linear and null scenario generated
+
+&lt;img src="images/covnet3.png" style="width: 50%; align: center" /&gt;
+
+]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+]
+.pull-right[
+
+### Computer model prediction
+
+- Re-generate the 70 *data plots* using the same data in Turk study (without null plots)
+- Use the computer model to predict whether the 70 data plots were "linear" or "null"
+- The computer model's predicted accuracy over the 70 data plots are recorded as the model's performance.
+]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+]
+.pull-right[
+
+### Human subjects results
+
+- Calculate `\(p\)`-value associated with each lineup using the binomial formula (from Majumder), with `\(N\)`=number of evaluations and k=number of people choosing data plot
+- Draw conclusion: reject the null when the calculated `\(p\)`-value is smaller than `\(\alpha\)`.
+- The accuracy of the conclusions over the 70 lineups 
+]
+
+--
+
+## Experiment repeated
+
+---
+# Repeat of experiment
+
+Using same sample of `\(n\)`, `\(\beta\)`, `\(\sigma\)`, new data generated, and images created numerically by binning (to 30x30 pixels), counting and scaling counts to 0-255.
+
+Keras model fitted with 60,000 training images for each class, linear and not.
+
+Accuracy with simulated test data, 93%. Null error 0.0179, linear error 0.1176
+
+.footnote[Code available in the file `keras_correlation.r`]
+--
+
+.pink[Its blindingly fast!]
+
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+### Results
+]
+.right-plot[
+
+# Results 1
+
+&lt;img src="images/results.png" width="100%" /&gt;
+
+.pink[Humans beat computers.] 
+
+]
+---
+.left-column[
+# Human vs computer
+### Comparison
+### Computer model
+### Testing
+### Results
+]
+.right-plot[
+
+# Results 2
+
+&lt;img src="images/new_computer_v_human.png" width="80%" /&gt;
+
+.pink[Humans beat computers, and match the power of the theoretical t-test (uniformly most powerful test).]
+
+]
+---
+# Comparison of human and computer. 
+ 
+&lt;table&gt;
+&lt;tr&gt; &lt;th&gt; &lt;/th&gt; &lt;th&gt; &lt;/th&gt; &lt;th colspan="2"&gt; Computer &lt;/th&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;th&gt; &lt;/th&gt; &lt;th&gt;  &lt;/th&gt; &lt;th&gt; Not &lt;/th&gt; &lt;th&gt; Linear &lt;/th&gt; &lt;/th&gt; &lt;/tr&gt;
+&lt;tr&gt; &lt;th rowspan="2"&gt; Human &lt;/th&gt; &lt;th&gt; Not &lt;/th&gt; &lt;td&gt; 27 &lt;/td&gt; &lt;td&gt; 0 &lt;/td&gt; &lt;/tr&gt;
+&lt;tr&gt;  &lt;th&gt; Linear &lt;/th&gt; &lt;td&gt; 15 &lt;/td&gt; &lt;td&gt; 28 &lt;/td&gt; &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+&lt;br&gt;
+
+.pink[Computer tends to predict too many as not linear.]
+
+---
+# Thanks for listening!
+
+Here's what I hope you heard:
+
+- Plots can be embedded into an inferential framework
+- This extends the applicability of statistics to more complex problems
+- Crowd-sourcing can help mange plot evaluation
+- Computer vision models are promising ways to scale up
+
+---
+# Additional reading
 
 ---
 class: middle
