@@ -45,6 +45,7 @@ background-size: 55%
 
 <br>
 <br>
+.tiny[[https://dicook.org/files/vISEC2020/slides.html](https://dicook.org/files/vISEC2020/slides.html)]
 <br>
 .footnote[Image credit: Di Cook, 2018]
 
@@ -834,7 +835,7 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
 
-Slides are available at [https://dicook.org/files/vISEC20/slides.html](https://dicook.org/files/vISEC20/slides.html) and supporting files at [https://github.com/dicook/vISEC20](https://github.com/dicook/vISEC20).
+Slides are available at [https://dicook.org/files/vISEC2020/slides.html](https://dicook.org/files/vISEC2020/slides.html) and supporting files at [https://github.com/dicook/vISEC2020](https://github.com/dicook/vISEC20).
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
