@@ -51,6 +51,7 @@ background-size: 55%
 
 ```{r load libraries and look at wasps data}
 library(knitr)
+library(kableExtra)
 library(nullabor)
 library(tourr)
 library(RColorBrewer)
@@ -533,26 +534,163 @@ class: inverse middle center
 [Majumder et al (2013)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2013.808157) conducted validation study to compare the performance of the lineup protocol, assessed by human evaluators, in comparison to the classical test, using subjects employed with Amazon's Mechanical Turk.
 
 ---
-# Explanation of experiment
+## Explanation of experiment
 
-.left-full[
+Read about it at http://datascience.unomaha.edu/turk/exp2/index.html
 
-- $H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0$
-- 70 lineups of size 20 plots: $n=100, 300; \beta \in [-6, 4.5]; \sigma=5, 12$
+
+.left-code[
+
+$H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0$
+
+- 70 lineups of size 20 plots: 
+    - $n=100, 300$ 
+    - $\beta \in [-6, 4.5]$ 
+    - $\sigma=5, 12$
 - 351 evaluations by human subjects
-- Read about it at http://datascience.unomaha.edu/turk/exp2/index.html
 
 ]
 
 .right-plot[
 
-<img src="images/plot_turk2_300_150_5_3.png" width="100%">
+<img src="images/plot_turk2_300_150_5_3.png" style="width: 80%; align: center">
 
 ]
 
 ---
 
-Soybean example
+.left-code[
+
+Power analysis of human evaluation  relative to classical test: 
+
+*Pooling the results from multiple people produces results that mirror the power of the classical test.*
+
+]
+.right-plot[
+
+Effect $= \frac{\sqrt{n}\times |\beta|}{\sigma}$
+
+<img src="images/majumder1.png" width="70%" />
+<img src="images/majumder2.png" width="30%" />
+
+
+]
+---
+class: inverse middle center
+
+.large[`r emo::ji("sweat")`]
+
+The wasps example made us worried about our own RNA-Seq analyses!
+
+---
+# Lineup of our own data
+
+I'm going to show you a page of plots
+
+--
+
+Each has a `r anicon::nia("number", size=1, speed="slow", animate="vertical", colour="#75A34D")` above it, this is its id
+
+--
+
+Choose the plot that you think exhibits the 
+- `r anicon::nia("steepest green line", size=1, speed="slow", animate="vertical", colour="#75A34D")` 
+-  with relatively `r anicon::nia("small spread", size=1, speed="slow", animate="vertical", colour="#75A34D")` of the green points 
+
+--
+
+`r anicon::nia("Ready?", size=2, speed="slow", animate="vertical", colour="#75A34D")`
+
+---
+background-image: url(images/plot_turk9_interaction_2_1.png)
+background-position: 50% 85%
+background-size: 75%
+
+---
+background-image: url(images/RNASeq_disagreement.png)
+background-position: 90% 15%
+background-size: 40%
+
+Experimental design 2x2 factorial:
+
+- Two genotypes (EV, RPA)
+- Two growing conditions (I, S)
+- Three reps for each treatment
+- Approx 60,000 genes
+
+Results from two different procedures, edgeR and DESeq provided conflicting numbers of significant genes, but on the order of 300 significant genes.
+
+One of the top genes was selected for the lineup study, and independent observers engaged through Amazon's Mechanical Turk. 
+---
+# Turk results
+
+`r anicon::nia("Is there any significant structure in our data?", size=2, speed="slow", animate="pulse", colour="#B86BB3")`
+
+--
+
+- 24 lineups were made, only one shown to an observer
+- 5 different positions of the data plot
+- 5 different sets of null plots
+
+
+Small number of observers engaged to evaluate the lineups
+
+---
+
+.pull-left[
+```{r out.width="80%"}
+load("data/turk9_inter_results.rda")
+turk_inter_results[1:12,] %>% 
+  mutate(pdetect=round(pdetect, 2)) %>%
+  rename(`Lineup name`=pic_name, `No. detects`=ndetect, 
+         `No. evals`=n, `Prop. detect`=pdetect) %>%
+  kable() %>%
+  kable_styling() %>%
+  row_spec(1:12, background = "white", font_size = 14)
+```
+]
+--
+.pull-right[
+```{r out.width="80%"}
+turk_inter_results[13:24,] %>%
+  mutate(pdetect=round(pdetect, 2)) %>%
+  rename(`Lineup name`=pic_name, `No. detects`=ndetect, 
+         `No. evals`=n, `Prop. detect`=pdetect) %>%
+  kable() %>%
+  kable_styling() %>%
+  row_spec(1:12, background = "white", font_size = 14)
+```
+]
+
+<br>
+<br>
+Overall detection rate `r turk_inter_results %>% summarise(p=round(sum(ndetect)/sum(n),2))` is high. There is some structure to our data. `r anicon::faa("bolt", size=1, speed="slow", animate="wrench", colour="#75A34D")`
+---
+background-image: url(images/RNASeq_explanation.png)
+background-position: 90% 60%
+background-size: 60%
+
+## How does a <br> discrepancy <br> happen?
+
+---
+class: inverse middle
+
+Two aspects of massive multiple testing
+
+- ruler on which to measure difference === .yellow[empirical Bayes]
+- false positives === .yellow[False Discovery Rate]
+
+--
+
+<br>
+
+`r anicon::nia("Even with these, mistakes can happen, and visualising the data remains valuable", size=2, speed="slow", animate="vertical", colour="#75A34D")`
+
+---
+
+background-image: url(images/RNASeq_top25.png)
+background-position: 50% 50%
+background-size: contain
 
 ---
 

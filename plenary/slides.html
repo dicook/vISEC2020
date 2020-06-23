@@ -8,6 +8,7 @@
     <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
     <script src="libs/countdown/countdown.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="mytheme.css" type="text/css" />
   </head>
@@ -152,8 +153,8 @@ For sighted vs forest habitate the *mapping requires call to* `stat=count`:
 ## # Groups:   sighted [2]
 ##   sighted forest count
 ##   &lt;lgl&gt;   &lt;lgl&gt;  &lt;int&gt;
-## 1 FALSE   FALSE   1184
-## 2 FALSE   TRUE     316
+## 1 FALSE   FALSE   1185
+## 2 FALSE   TRUE     315
 ## 3 TRUE    FALSE    560
 ## 4 TRUE    TRUE     266
 ```
@@ -335,7 +336,7 @@ Choose the plot that you think exhibits the <span class=" faa-vertical animated 
 
 &lt;img src="slides_files/figure-html/lineup of the wasps-1.png" width="100%" /&gt;
 
-<div class="countdown" id="timer_5ef1b104" style="top:85%;left:45%;font-size:1em;" data-warnwhen="0">
+<div class="countdown" id="timer_5ef1b47e" style="top:85%;left:45%;font-size:1em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 ---
@@ -435,26 +436,312 @@ class: inverse middle center
 [Majumder et al (2013)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2013.808157) conducted validation study to compare the performance of the lineup protocol, assessed by human evaluators, in comparison to the classical test, using subjects employed with Amazon's Mechanical Turk.
 
 ---
-# Explanation of experiment
+## Explanation of experiment
 
-.left-full[
+Read about it at http://datascience.unomaha.edu/turk/exp2/index.html
 
-- `\(H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0\)`
-- 70 lineups of size 20 plots: `\(n=100, 300; \beta \in [-6, 4.5]; \sigma=5, 12\)`
+
+.left-code[
+
+`\(H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0\)`
+
+- 70 lineups of size 20 plots: 
+    - `\(n=100, 300\)` 
+    - `\(\beta \in [-6, 4.5]\)` 
+    - `\(\sigma=5, 12\)`
 - 351 evaluations by human subjects
-- Read about it at http://datascience.unomaha.edu/turk/exp2/index.html
 
 ]
 
 .right-plot[
 
-&lt;img src="images/plot_turk2_300_150_5_3.png" width="100%"&gt;
+&lt;img src="images/plot_turk2_300_150_5_3.png" style="width: 80%; align: center"&gt;
 
 ]
 
 ---
 
-Soybean example
+.left-code[
+
+Power analysis of human evaluation  relative to classical test: 
+
+*Pooling the results from multiple people produces results that mirror the power of the classical test.*
+
+]
+.right-plot[
+
+Effect `\(= \frac{\sqrt{n}\times |\beta|}{\sigma}\)`
+
+&lt;img src="images/majumder1.png" width="70%" /&gt;
+&lt;img src="images/majumder2.png" width="30%" /&gt;
+
+
+]
+---
+class: inverse middle center
+
+.large[😓]
+
+The wasps example made us worried about our own RNA-Seq analyses!
+
+---
+# Lineup of our own data
+
+I'm going to show you a page of plots
+
+--
+
+Each has a <span class=" faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">number</span> above it, this is its id
+
+--
+
+Choose the plot that you think exhibits the 
+- <span class=" faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">steepest green line</span> 
+-  with relatively <span class=" faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">small spread</span> of the green points 
+
+--
+
+<span class="fa-2x faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">Ready?</span>
+
+---
+background-image: url(images/plot_turk9_interaction_2_1.png)
+background-position: 50% 85%
+background-size: 75%
+
+---
+background-image: url(images/RNASeq_disagreement.png)
+background-position: 90% 15%
+background-size: 40%
+
+Experimental design 2x2 factorial:
+
+- Two genotypes (EV, RPA)
+- Two growing conditions (I, S)
+- Three reps for each treatment
+- Approx 60,000 genes
+
+Results from two different procedures, edgeR and DESeq provided conflicting numbers of significant genes, but on the order of 300 significant genes.
+
+One of the top genes was selected for the lineup study, and independent observers engaged through Amazon's Mechanical Turk. 
+---
+# Turk results
+
+<span class="fa-2x faa-pulse animated faa-slow " style=" color:#B86BB3; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">Is there any significant structure in our data?</span>
+
+--
+
+- 24 lineups were made, only one shown to an observer
+- 5 different positions of the data plot
+- 5 different sets of null plots
+
+
+Small number of observers engaged to evaluate the lineups
+
+---
+
+.pull-left[
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Lineup name &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; No. detects &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; No. evals &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Prop. detect &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_1_3.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_2_3.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_4_2.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_4_5.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_5_1.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_5_3.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_5_4.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_5_5.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_1_2.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_1_4.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_2_2.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.75 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_2_1.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.67 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+--
+.pull-right[
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Lineup name &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; No. detects &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; No. evals &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Prop. detect &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_2_4.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.67 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_2_5.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.67 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_4_3.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.67 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_3_5.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.62 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_1_5.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.60 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_3_2.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.50 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_3_4.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.50 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_4_4.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.33 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_5_2.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.33 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_3_1.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_3_3.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;background-color: white !important;font-size: 14px;"&gt; plot_turk9_interaction_4_1.svg &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;background-color: white !important;font-size: 14px;"&gt; 0.00 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+&lt;br&gt;
+&lt;br&gt;
+Overall detection rate 0.65 is high. There is some structure to our data. <span>&lt;i class="fas  fa-bolt faa-wrench animated faa-slow " style=" color:#75A34D;"&gt;&lt;/i&gt;</span>
+---
+background-image: url(images/RNASeq_explanation.png)
+background-position: 90% 60%
+background-size: 60%
+
+## How does a &lt;br&gt; discrepancy &lt;br&gt; happen?
+
+---
+class: inverse middle
+
+Two aspects of massive multiple testing
+
+- ruler on which to measure difference === .yellow[empirical Bayes]
+- false positives === .yellow[False Discovery Rate]
+
+--
+
+&lt;br&gt;
+
+<span class="fa-2x faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">Even with these, mistakes can happen, and visualising the data remains valuable</span>
+
+---
+
+background-image: url(images/RNASeq_top25.png)
+background-position: 50% 50%
+background-size: contain
 
 ---
 
