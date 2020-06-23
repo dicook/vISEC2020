@@ -87,6 +87,8 @@ th, td { padding: 5px; }
 .yellow { color: #CFA118; }
 .green { color: #568000; }
 .large { font-size: 2em; }
+.small { font-size: 0.8em; }
+.tiny { font-size: 0.5em; }
 
 .left-code {
   color: #777;

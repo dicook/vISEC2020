@@ -64,7 +64,7 @@ data(wasps)
 ---
 class: inverse middle center
 
-# Data plots are utilised widely in ecological statistics, and can and should be integrated into the classical statistics infrastructure
+# Data plots are utilised widely in ecology, often to make decisions. They can and should be integrated into the classical statistics infrastructure.
 
 ---
 
@@ -76,11 +76,12 @@ class: inverse middle center
 
 --
 
-`r anicon::faa("hand-peace", size=2, speed="slow", animate="vertical", colour="#75A34D")` .large[.orange[computer vision experiments,]]
+`r anicon::faa("hand-spock", size=2, speed="slow", animate="wrench", colour="#75A34D")` .large[.green[a high-throughput analysis]]
 
 --
 
-`r anicon::faa("hand-spock", size=2, speed="slow", animate="wrench", colour="#75A34D")` .large[.green[and high-throughput analysis]]
+`r anicon::faa("hand-peace", size=2, speed="slow", animate="vertical", colour="#75A34D")` .large[.orange[and computer vision experiments,]]
+
 
 
 ---
@@ -181,7 +182,7 @@ ggplot(rsf1) + #<<
   extra nice styling
 ```
 
-For sighted vs forest habitate the *mapping requires call to* `stat=count`:
+For sighted vs forest habitat the *mapping requires call to* `stat=count`:
 
 ```{r}
 rsf1 %>% as_tibble() %>%
@@ -201,19 +202,12 @@ ggplot(rsf1) + #<<
     aes(x=sighted, fill=forest), #<<
     position = "fill") + 
   scale_fill_ochre(palette="emu_woman_paired") +
+  ylab("Proportion") +
   theme_bw() + 
   theme(aspect.ratio=1, legend.position = "bottom")
 ```
 ]
 
----
-class: inverse middle center
-
-# Inference for graphics infrastructure
-
----
-background-image: url(images/vis_inf.png)
-background-size: contain
 
 ---
 # Null generating mechanism: Example 1
@@ -276,60 +270,62 @@ class: inverse middle center
 # Pretend you haven't seen the data plot
 
 ---
-# Which plot is different from the rest?
 
 .left-code[
+
+`r anicon::nia("Which plot is different from the rest?", speed="slow", animate="float")`
+
 ```{r echo=TRUE, eval=FALSE}
 set.seed(20200624)
 library(nullabor)
-l <- lineup(null_permute("sighted"), rsf1, n=6)
+l <- lineup(null_permute("sighted"), #<<
+            rsf1, n=6) #<<
 ggplot(l) + 
   geom_point(
     aes(x=x, y=y, colour=sighted),  
     alpha=0.3) +
-  scale_colour_ochre(palette = "nolan_ned") +
   facet_wrap(~.sample, ncol=2) + 
-  theme_map() + xlab("") + ylab("") +
-  theme(aspect.ratio=1, legend.position = "none") 
+  extra nice styling 
 ```
 
 
 ]
 
 .right-plot[
-```{r fig.width=3, fig.height=3, out.width="100%"}
+```{r fig.width=2, fig.height=2, out.width="100%"}
 set.seed(20200624)
 library(nullabor)
 l1 <- lineup(null_permute("sighted"), rsf1, n=4)
 ggplot(l1) + 
   geom_point(
     aes(x=x, y=y, colour=sighted),  
-    alpha=0.3) +
+    alpha=0.3, size=0.5) +
   scale_colour_ochre(palette = "nolan_ned") +
   facet_wrap(~.sample, ncol=2) + 
   theme_map() + xlab("") + ylab("") +
   theme(aspect.ratio=1, legend.position = "none") 
 ```
+
+
+]
+
 --
 
 You say 1? Oh, that is the data plot. 
-
-]
 
 ---
 
 .left-code[
 ```{r echo=TRUE, eval=FALSE}
 set.seed(20200625)
-l <- lineup(null_permute("sighted"), rsf1, n=9)
+l <- lineup(null_permute("sighted"), #<<
+            rsf1, n=9) #<<
 ggplot(l) +
   geom_bar(
-    aes(x=sighted, fill=forest), #<<
+    aes(x=sighted, fill=forest), 
     position = "fill") + 
-  scale_fill_ochre(palette="emu_woman_paired") +
   facet_wrap(~.sample, ncol=3) + 
-  theme_void() + 
-  theme(aspect.ratio=1, legend.position = "none")
+  extra nice styling
 ```
 
 *In which plot is the light brown bar on the right the tallest?*
@@ -349,14 +345,26 @@ ggplot(l2) +
   theme(aspect.ratio=1, legend.position = "none")
 ```
 
-Did you say 5? You're good! That's the data plot again.
 
 ]
+
+--
+
+Did you say 5? You're good! 
+
+---
+class: middle center
+
+# In each case, the data plot was identifiable, and the null hypothesis would be rejected
 
 ---
 class: inverse middle center
 
-# In each case the data plot was identifiable, which leads to rejecting the null hypothesis
+# Inference for graphics infrastructure
+
+---
+background-image: url(images/vis_inf.png)
+background-size: contain
 
 ---
 class: inverse middle center
@@ -427,7 +435,7 @@ ggplot(d, aes(x=LD1, y=LD2, colour=Group)) +
 .pull-left[
 The data plot is 
 
-```{r true wasp data plot, out.width="90%", fig.width=3, fig.height=4}
+```{r true wasp data plot, out.width="70%", fig.width=3, fig.height=4}
 ggplot(true, aes(x=LD1, y=LD2, colour=Group)) + 
   geom_point() + 
   scale_colour_brewer(palette="Dark2") +
@@ -436,7 +444,12 @@ ggplot(true, aes(x=LD1, y=LD2, colour=Group)) +
 ]
 .pull-right[
 
-My guess is that nobody picked it?
+<br>
+<br>
+<br>
+<br>
+`r anicon::nia("My guess is that nobody picked it?", size=1, speed="slow", animate="vertical", colour="#75A34D")`
+
 
 ]
 
@@ -522,7 +535,7 @@ Top 12 PCs
 ---
 class: inverse middle center
 
-# What's that you say? That people can't look at this many plots?
+# What's that you say? That people can't look at so many plots?
 
 --
 
@@ -561,14 +574,19 @@ $H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0$
 
 .left-code[
 
-Power analysis of human evaluation  relative to classical test: 
+Power analysis of human evaluation  relative to classical test. 
+
+Effect $= \frac{\sqrt{n}\times |\beta|}{\sigma}$
+
+<br>
+<br>
 
 *Pooling the results from multiple people produces results that mirror the power of the classical test.*
+
 
 ]
 .right-plot[
 
-Effect $= \frac{\sqrt{n}\times |\beta|}{\sigma}$
 
 <img src="images/majumder1.png" width="70%" />
 <img src="images/majumder2.png" width="30%" />
@@ -577,6 +595,8 @@ Effect $= \frac{\sqrt{n}\times |\beta|}{\sigma}$
 ]
 ---
 class: inverse middle center
+
+# High-throughput analysis
 
 .large[`r emo::ji("sweat")`]
 
@@ -622,6 +642,13 @@ Results from two different procedures, edgeR and DESeq provided conflicting numb
 
 One of the top genes was selected for the lineup study, and independent observers engaged through Amazon's Mechanical Turk. 
 ---
+background-image: url(images/RNASeq_explanation.png)
+background-position: 90% 60%
+background-size: 60%
+
+## How does a <br> discrepancy <br> happen?
+
+---
 # Turk results
 
 `r anicon::nia("Is there any significant structure in our data?", size=2, speed="slow", animate="pulse", colour="#B86BB3")`
@@ -633,44 +660,7 @@ One of the top genes was selected for the lineup study, and independent observer
 - 5 different sets of null plots
 
 
-Small number of observers engaged to evaluate the lineups
-
----
-
-.pull-left[
-```{r out.width="80%"}
-load("data/turk9_inter_results.rda")
-turk_inter_results[1:12,] %>% 
-  mutate(pdetect=round(pdetect, 2)) %>%
-  rename(`Lineup name`=pic_name, `No. detects`=ndetect, 
-         `No. evals`=n, `Prop. detect`=pdetect) %>%
-  kable() %>%
-  kable_styling() %>%
-  row_spec(1:12, background = "white", font_size = 14)
-```
-]
---
-.pull-right[
-```{r out.width="80%"}
-turk_inter_results[13:24,] %>%
-  mutate(pdetect=round(pdetect, 2)) %>%
-  rename(`Lineup name`=pic_name, `No. detects`=ndetect, 
-         `No. evals`=n, `Prop. detect`=pdetect) %>%
-  kable() %>%
-  kable_styling() %>%
-  row_spec(1:12, background = "white", font_size = 14)
-```
-]
-
-<br>
-<br>
-Overall detection rate `r turk_inter_results %>% summarise(p=round(sum(ndetect)/sum(n),2))` is high. There is some structure to our data. `r anicon::faa("bolt", size=1, speed="slow", animate="wrench", colour="#75A34D")`
----
-background-image: url(images/RNASeq_explanation.png)
-background-position: 90% 60%
-background-size: 60%
-
-## How does a <br> discrepancy <br> happen?
+Pooling results gave a detection rate of 0.65, which is high. *There is some structure to our data.* `r anicon::faa("bolt", size=1, speed="slow", animate="wrench", colour="#75A34D")`
 
 ---
 class: inverse middle
@@ -695,79 +685,63 @@ background-size: contain
 ---
 class: inverse middle center
 
-Bring on deep learning, and computer vision models
+# Bring on deep learning, and computer vision models 
+
+.large[`r emo::ji("computer")`]
 
 ---
-.left-column[
-# Human vs computer
-### Comparison
-]
-.right-plot[
+
+.left-code[
+
+.green[*Monash Masters thesis by Shuofan Zhang*]
+
+Starting from .orange[Majumder's validation study data]:
 
 $H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0$
 
 Linear vs no relationship (null)
+]
+
+.right-plot[
+
+### Training the deep learning model 
+
+Same process, but with broader range of parameter settings, and a lot more data!
+
+200,000 samples from each of linear and null scenario generated
+
+$\beta_1\sim \pm U[-10, -0.1]$  (linear, null when $\beta_1=0$)
+
+$\sigma \sim U[1,12]$ 
+
+$n=U[50,500]$  
+
 
 ]
 
 ---
-.left-column[
-# Human vs computer
-### Comparison
-### Computer model
-]
-.pull-right[
 
-Simulation 
-
-$$Y_i = \beta_0 + \beta_1 X_{i}  + \varepsilon_i, ~~i=1, \dots , n$$
-
-- $X \sim N[0,\ 1]$
-- $\beta_0 = 0$ (intercept)
-- $\beta_1\sim U[-10, -0.1] \bigcup [0.1, 10]$  (linear, null when $\beta_1=0$)
-- $\varepsilon\sim N(0, \sigma^2) \ where\ \sigma \sim U[1,12]$ 
-- $n=U[50,500]$  
-- 200,000 from each linear and null scenario generated
-
-<img src="images/covnet3.png" style="width: 50%; align: center" />
-
-]
-
----
-.left-column[
-# Human vs computer
-### Comparison
-### Computer model
-### Testing
-]
-.pull-right[
+.left-code[
 
 ### Computer model prediction
 
+.small[
 - Re-generate the 70 *data plots* using the same data in Turk study (without null plots)
 - Use the computer model to predict whether the 70 data plots were "linear" or "null"
 - The computer model's predicted accuracy over the 70 data plots are recorded as the model's performance.
 ]
-
----
-.left-column[
-# Human vs computer
-### Comparison
-### Computer model
-### Testing
 ]
-.pull-right[
+
+.right-plot[
 
 ### Human subjects results
 
+.small[
 - Calculate $p$-value associated with each lineup using the binomial formula (from Majumder), with $N$=number of evaluations and k=number of people choosing data plot
 - Draw conclusion: reject the null when the calculated $p$-value is smaller than $\alpha$.
 - The accuracy of the conclusions over the 70 lineups 
 ]
-
---
-
-## Experiment repeated
+]
 
 ---
 # Repeat of experiment
@@ -776,7 +750,7 @@ Using same sample of $n$, $\beta$, $\sigma$, new data generated, and images crea
 
 Keras model fitted with 60,000 training images for each class, linear and not.
 
-Accuracy with simulated test data, 93%. Null error 0.0179, linear error 0.1176
+Accuracy with .orange[simulated test] data, 93%. Null error 0.0179, linear error 0.1176
 
 .footnote[Code available in the file `keras_correlation.r`]
 --
@@ -784,39 +758,29 @@ Accuracy with simulated test data, 93%. Null error 0.0179, linear error 0.1176
 .pink[Its blindingly fast!]
 
 ---
-.left-column[
-# Human vs computer
-### Comparison
-### Computer model
-### Testing
-### Results
-]
-.right-plot[
 
-# Results 1
+.left-code[
+
+## Accuracy
 
 <img src="images/results.png" width="100%" />
 
-.pink[Humans beat computers.] 
+Humans beat computers.
 
 ]
----
-.left-column[
-# Human vs computer
-### Comparison
-### Computer model
-### Testing
-### Results
-]
+
+--
+
 .right-plot[
 
-# Results 2
+## Power analysis
 
 <img src="images/new_computer_v_human.png" width="80%" />
 
-.pink[Humans beat computers, and match the power of the theoretical t-test (uniformly most powerful test).]
+Humans beat computers.
 
 ]
+
 ---
 # Comparison of human and computer. 
  
@@ -830,7 +794,7 @@ Accuracy with simulated test data, 93%. Null error 0.0179, linear error 0.1176
 <br>
 <br>
 
-.pink[Computer tends to predict too many as not linear.]
+Computer tends to predict too many as "not linear".
 
 ---
 # Thanks for listening!
@@ -843,11 +807,28 @@ Here's what I hope you heard:
 - Computer vision models are promising ways to scale up
 
 ---
-# Additional reading
+### Additional reading
+
+.small[
+^ Buja et al (2009) Statistical Inference for Exploratory Data Analysis and Model Diagnostics, RSPT A <br>
+^ Wickham et al (2010) Graphical Inference for Infovis, TVCG <br>
+^ Hofmann et al (2012) Graphical Tests for Power Comparison of Competing Design, TVCG <br>
+^ Majumder et al (2013) Validation of Visual Statistical Inference, Applied to Linear Models, JASA <br>
+^ Yin et al (2013) Visual Mining Methods for RNA-Seq data: Examining Data structure, Understanding Dispersion estimation and Significance Testing, JDMGP <br>
+^ Zhao, et al (2014) Mind Reading: Using An Eye-tracker To See How People Are Looking At Lineups, IJITA <br>
+^ Lin et al (2015) Does host-plant diversity explain species richness in insects? Ecological Entomology<br>
+^ Roy Chowdhury et al (2015) Using Visual Statistical Inference to Better Understand Random Class Separations in High Dimension, Low Sample Size Data <br>
+^ Loy et al (2017) Model Choice and Diagnostics for Linear, CS <br> Mixed-Effects Models Using Statistics on Street Corners, JCGS <br>
+^ Roy Chowdhury et al (2018) Measuring Lineup Difficulty By Matching Distance Metrics with Subject Choices in Crowd- Sourced Data, JCGS
+]
 
 ---
-class: middle
-# Thanks
+class: inverse middle
+background-image: url(images/gum.png)
+background-position: 99% 1%
+background-size: 35%
+
+# Acknowledgements
 
 Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan), with **iris theme** created from [xaringanthemer](https://github.com/gadenbuie/xaringanthemer).
 
@@ -856,3 +837,5 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 Slides are available at [https://dicook.org/files/vISEC20/slides.html](https://dicook.org/files/vISEC20/slides.html) and supporting files at [https://github.com/dicook/vISEC20](https://github.com/dicook/vISEC20).
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+.footnote[Image credit: Di Cook, 2019]
