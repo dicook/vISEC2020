@@ -33,7 +33,7 @@ penguins <- penguins %>%
          bm = body_mass_g)
 animate_xy(penguins[,3:6], 
            col=col, 
-           axes="off", 
+           axes="bottomleft", 
            fps=15)
 
 # Some geometric shapes
