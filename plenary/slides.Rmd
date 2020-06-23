@@ -1,0 +1,360 @@
+---
+title: "Making inference using data plots, with application to ecological statistics"
+author: "Di Cook"
+date: 
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["xaringan-themer.css", "mytheme.css"]
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+    seal: FALSE
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  error = FALSE, 
+  echo = FALSE,
+  fig.retina = 3)
+```
+
+```{r xaringan-themer, include=FALSE}
+library(tidyverse)
+library(xaringanthemer)
+#solarized_light(
+#  text_font_family = list(google_font("Lato")),
+#)
+```
+
+class: inverse middle
+background-image: url(images/wattle_bee.jpg)
+background-position: 99% 99%
+background-size: 55%
+
+# Making inference using data plots, with application to ecological statistics
+
+## Di Cook <br> Monash University
+
+### vISEC <br> June 24, 2020
+
+<br>
+<br>
+<br>
+.footnote[Image credit: Di Cook, 2018]
+
+
+```{r load libraries and look at wasps data}
+library(knitr)
+library(nullabor)
+library(tourr)
+library(RColorBrewer)
+library(MASS)
+library(ggthemes)
+data(wasps)
+```
+
+---
+# Some motivational examples
+
+coccid host-species plots
+ALA north south
+bushfire locations
+richness and 
+
+---
+class: inverse middle center
+
+# Data plots are utilised widely in ecological statistics, and can and should be integrated into the classical statistics infrastructure
+
+---
+
+.large[I'm going to talk about]
+
+--
+
+`r anicon::faa("hand-pointer", size=2, speed="slow", animate="float", colour="#75A34D")` .large[.purple[inference for data plots]]
+
+--
+
+`r anicon::faa("hand-peace", size=2, speed="slow", animate="vertical", colour="#75A34D")` .large[.orange[computer vision experiments,]]
+
+--
+
+`r anicon::faa("hand-spock", size=2, speed="slow", animate="wrench", colour="#75A34D")` .large[.green[and high-throughput analysis]]
+
+
+---
+# Inference for data plots requires
+
+1. the plot is a statistic 
+--
+
+2. the type of plot (specified by a grammar) implicitly defines the null hypothesis
+--
+
+3. a null generating mechanism provides draws from the sampling distribution, among which to embed the data plot
+--
+
+4. human (computer) observers are engaged to conduct a lineup test
+--
+
+5. statistical significance and power can be computed based on the proportion of observers choosing the data plot from the lineup
+
+---
+# Why is a plot a statistic?
+
+Many of you (hopefully) use `ggplot2` to make your plots with a grammar of graphics. 
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(data=DATA) + 
+  geom_something(
+    mapping=aes(x=VAR1, y=VAR2, colour=VAR3) #<<
+  ) +
+  extra nice styling
+```
+--
+
+*A statistic is a function of a random variable(s).*  This is how the mapping can be interpreted. 
+
+---
+
+.left-code[
+
+Adding data gives a visual statistic
+
+```{r echo=TRUE, eval=FALSE}
+# Get some data
+library(amt)
+data("deer")
+data("sh_forest")
+rsf1 <- deer %>% random_points(n=1500) %>% 
+  extract_covariates(sh_forest) %>% 
+  mutate(forest = sh.forest == 1) %>%
+  rename(x=x_, y=y_, sighted=case_)
+
+# Plot it
+ggplot(data=rsf1) + #<<
+  geom_point(
+    aes(x=x, y=y, colour=sighted),  #<<
+    alpha=0.7) +
+  extra nice styling
+```
+
+
+
+]
+.right-plot[
+
+Observed value of the statistic
+
+```{r fig.height=4, fig.width=4, out.width="100%"}
+library(ggthemes)
+library(ochRe)
+library(amt)
+data("deer")
+data("sh_forest")
+rsf1 <- deer %>% random_points(n=1500) %>% 
+  extract_covariates(sh_forest) %>% 
+  mutate(forest = sh.forest == 1) %>%
+  rename(x=x_, y=y_, sighted=case_) 
+ggplot(rsf1) + 
+  geom_point(
+    aes(x=x, y=y, colour=sighted),  #<<
+    alpha=0.7) +
+  scale_colour_ochre(palette = "nolan_ned") +
+  theme_map() + 
+  theme(aspect.ratio=1, legend.position = "top") +
+  ggtitle("GPS relocations of one red deer")
+```
+
+]
+
+---
+
+.left-code[
+
+Try another one. Sightings and forest habitat.
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(rsf1) + #<<
+  geom_bar(
+    aes(x=sighted, fill=forest), #<<
+    position = "fill") + 
+  extra nice styling
+```
+
+*Mapping requires call to* `stat=count`, though.
+
+.small.center[
+```{r echo=TRUE, eval=FALSE}
+sighted forest count
+--------------------
+TRUE    TRUE   266
+TRUE    FALSE  560
+FALSE   TRUE   312
+FALSE   FALSE 1188
+```
+]
+]
+.right-plot[
+
+```{r fig.height=4, fig.width=4, out.width="100%"}
+ggplot(rsf1) + #<<
+  geom_bar(
+    aes(x=sighted, fill=forest), #<<
+    position = "fill") + 
+  scale_fill_ochre(palette="emu_woman_paired") +
+  theme_bw() + 
+  theme(aspect.ratio=1, legend.position = "bottom")
+```
+]
+
+---
+background-image: url(images/vis_inf.png)
+background-size: contain
+
+---
+# Null generating mechanism: Example 1
+
+.left-code[
+
+What's the null? What would be uninteresting? 
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(DATA) + #<<
+  geom_POINT(
+    aes(x=x, y=y, colour=sighted),  #<<
+    alpha=0.7) +
+  extra nice styling
+```
+]
+--
+
+.right-plot[
+
+
+$H_o:$ Sightings are uniformly distributed in space
+
+$H_a:$ Sightings are NOT uniformly distributed in space
+
+
+Null generating mechanism could be to permute the labels of sighted variable. (Or could simulated a second uniform set of points.)
+]
+
+---
+# Null generating mechanism: Example 2
+
+.left-code[
+
+What's the null? What would be uninteresting? 
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(DATA) + 
+  geom_BAR(
+    aes(x=sighted, fill=forest), #<<
+    position = "fill") + 
+  extra nice styling
+```
+]
+--
+
+.right-plot[
+
+
+$H_o:$ No relationship between sighted and forest habitat
+
+$H_a:$ Sightings in forest habitat more likely
+
+
+Null generating mechanism could also be permute the labels of sighted (or forest) variable. (Or could simulate from a binomial.)
+]
+---
+
+.left-code[
+```{r echo=TRUE, eval=FALSE}
+set.seed(20200624)
+library(nullabor)
+l <- lineup(null_permute("sighted"), rsf1, n=6)
+ggplot(l) + 
+  geom_point(
+    aes(x=x, y=y, colour=sighted),  
+    alpha=0.3) +
+  scale_colour_ochre(palette = "nolan_ned") +
+  facet_wrap(~.sample, ncol=2) + 
+  theme_map() + xlab("") + ylab("") +
+  theme(aspect.ratio=1, legend.position = "none") 
+
+```
+]
+
+.right-plot[
+```{r fig.width=3, fig.height=6, out.width="100%"}
+set.seed(20200624)
+library(nullabor)
+l1 <- lineup(null_permute("sighted"), rsf1, n=4)
+ggplot(l1) + 
+  geom_point(
+    aes(x=x, y=y, colour=sighted),  
+    alpha=0.3) +
+  scale_colour_ochre(palette = "nolan_ned") +
+  facet_wrap(~.sample, ncol=2) + 
+  theme_map() + xlab("") + ylab("") +
+  theme(aspect.ratio=1, legend.position = "none") 
+```
+]
+
+---
+
+.left-code[
+```{r echo=TRUE, eval=FALSE}
+set.seed(20200625)
+l <- lineup(null_permute("sighted"), rsf1, n=9)
+ggplot(l) +
+  geom_bar(
+    aes(x=sighted, fill=forest), #<<
+    position = "fill") + 
+  scale_fill_ochre(palette="emu_woman_paired") +
+  facet_wrap(~.sample, ncol=3) + 
+  theme_void() + 
+  theme(aspect.ratio=1, legend.position = "none")
+```
+
+In which plot is the light brown bar on the right the tallest?
+
+]
+.right-plot[
+```{r fig.width=3, fig.height=5, out.width="100%"}
+set.seed(20200625)
+l2 <- lineup(null_permute("sighted"), rsf1, n=9)
+ggplot(l2) +
+  geom_bar(
+    aes(x=sighted, fill=forest), #<<
+    position = "fill") + 
+  scale_fill_ochre(palette="emu_woman_paired") +
+  facet_wrap(~.sample, ncol=3) + 
+  theme_void() + 
+  theme(aspect.ratio=1, legend.position = "none")
+```
+]
+---
+class: inverse middle center
+
+# Visual inference broadens the scope of statistics
+
+---
+class: middle
+# Thanks
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan), with **iris theme** created from [xaringanthemer](https://github.com/gadenbuie/xaringanthemer).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+
+Slides are available at [https://dicook.org/files/vISEC20/slides.html](https://dicook.org/files/vISEC20/slides.html) and supporting files at [https://github.com/dicook/vISEC20](https://github.com/dicook/vISEC20).
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.

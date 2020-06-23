@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Making inference using data plots, with application to ecological statistics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Di Cook" />
+    <link href="libs/font-awesome-animation/font-awesome-animation-emi.css" rel="stylesheet" />
+    <script src="libs/fontawesome/js/fontawesome-all.min.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="mytheme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+class: inverse middle
+background-image: url(images/wattle_bee.jpg)
+background-position: 99% 99%
+background-size: 55%
+
+# Making inference using data plots, with application to ecological statistics
+
+## Di Cook &lt;br&gt; Monash University
+
+### vISEC &lt;br&gt; June 24, 2020
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+.footnote[Image credit: Di Cook, 2018]
+
+
+
+
+---
+# Some motivational examples
+
+coccid host-species plots
+ALA north south
+bushfire locations
+richness and 
+
+---
+class: inverse middle center
+
+# Data plots are utilised widely in ecological statistics, and can and should be integrated into the classical statistics infrastructure
+
+---
+
+.large[I'm going to talk about]
+
+--
+
+<span>&lt;i class="fas  fa-hand-pointer fa-2x faa-float animated faa-slow " style=" color:#75A34D;"&gt;&lt;/i&gt;</span> .large[.purple[inference for data plots]]
+
+--
+
+<span>&lt;i class="fas  fa-hand-peace fa-2x faa-vertical animated faa-slow " style=" color:#75A34D;"&gt;&lt;/i&gt;</span> .large[.orange[computer vision experiments,]]
+
+--
+
+<span>&lt;i class="fas  fa-hand-spock fa-2x faa-wrench animated faa-slow " style=" color:#75A34D;"&gt;&lt;/i&gt;</span> .large[.green[and high-throughput analysis]]
+
+
+---
+# Inference for data plots requires
+
+1. the plot is a statistic 
+--
+
+2. the type of plot (specified by a grammar) implicitly defines the null hypothesis
+--
+
+3. a null generating mechanism provides draws from the sampling distribution, among which to embed the data plot
+--
+
+4. human (computer) observers are engaged to conduct a lineup test
+--
+
+5. statistical significance and power can be computed based on the proportion of observers choosing the data plot from the lineup
+
+---
+# Why is a plot a statistic?
+
+Many of you (hopefully) use `ggplot2` to make your plots with a grammar of graphics. 
+
+
+```r
+ggplot(data=DATA) + 
+  geom_something(
+*   mapping=aes(x=VAR1, y=VAR2, colour=VAR3)
+  ) +
+  extra nice styling
+```
+--
+
+*A statistic is a function of a random variable(s).*  This is how the mapping can be interpreted. 
+
+---
+
+.left-code[
+
+Adding data gives a visual statistic
+
+
+```r
+# Get some data
+library(amt)
+data("deer")
+data("sh_forest")
+rsf1 &lt;- deer %&gt;% random_points(n=1500) %&gt;% 
+  extract_covariates(sh_forest) %&gt;% 
+  mutate(forest = sh.forest == 1) %&gt;%
+  rename(x=x_, y=y_, sighted=case_)
+
+# Plot it
+*ggplot(data=rsf1) +
+  geom_point(
+*   aes(x=x, y=y, colour=sighted),
+    alpha=0.7) +
+  extra nice styling
+```
+
+
+
+]
+.right-plot[
+
+Observed value of the statistic
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-3-1.png" width="100%" /&gt;
+
+]
+
+---
+
+.left-code[
+
+Try another one. Sightings and forest habitat.
+
+
+```r
+*ggplot(rsf1) +
+  geom_bar(
+*   aes(x=sighted, fill=forest),
+    position = "fill") + 
+  extra nice styling
+```
+
+*Mapping requires call to* `stat=count`, though.
+
+.small.center[
+
+```r
+sighted forest count
+--------------------
+TRUE    TRUE   266
+TRUE    FALSE  560
+FALSE   TRUE   312
+FALSE   FALSE 1188
+```
+]
+]
+.right-plot[
+
+&lt;img src="slides_files/figure-html/unnamed-chunk-6-1.png" width="100%" /&gt;
+]
+
+---
+background-image: url(images/vis_inf.png)
+background-size: contain
+
+---
+# Null generating mechanism: Example 1
+
+.left-code[
+
+What's the null? What would be uninteresting? 
+
+
+```r
+*ggplot(DATA) +
+  geom_POINT(
+*   aes(x=x, y=y, colour=sighted),
+    alpha=0.7) +
+  extra nice styling
+```
+]
+--
+
+.right-plot[
+
+
+`\(H_o:\)` Sightings are uniformly distributed in space
+
+`\(H_a:\)` Sightings are NOT uniformly distributed in space
+
+
+Null generating mechanism could be to permute the labels of sighted variable. (Or could simulated a second uniform set of points.)
+]
+
+---
+# Null generating mechanism: Example 2
+
+.left-code[
+
+What's the null? What would be uninteresting? 
+
+
+```r
+ggplot(DATA) + 
+  geom_BAR(
+*   aes(x=sighted, fill=forest),
+    position = "fill") + 
+  extra nice styling
+```
+]
+--
+
+.right-plot[
+
+
+`\(H_o:\)` No relationship between sighted and forest habitat
+
+`\(H_a:\)` Sightings in forest habitat more likely
+
+
+Null generating mechanism could also be permute the labels of sighted (or forest) variable. (Or could simulate from a binomial.)
+]
+---
+
+.left-code[
+
+```r
+set.seed(20200624)
+library(nullabor)
+l &lt;- lineup(null_permute("sighted"), rsf1, n=6)
+ggplot(l) + 
+  geom_point(
+    aes(x=x, y=y, colour=sighted),  
+    alpha=0.3) +
+  scale_colour_ochre(palette = "nolan_ned") +
+  facet_wrap(~.sample, ncol=2) + 
+  theme_map() + xlab("") + ylab("") +
+  theme(aspect.ratio=1, legend.position = "none") 
+```
+]
+
+.right-plot[
+&lt;img src="slides_files/figure-html/unnamed-chunk-10-1.png" width="100%" /&gt;
+]
+
+---
+
+.left-code[
+
+```r
+set.seed(20200625)
+l &lt;- lineup(null_permute("sighted"), rsf1, n=9)
+ggplot(l) +
+  geom_bar(
+*   aes(x=sighted, fill=forest),
+    position = "fill") + 
+  scale_fill_ochre(palette="emu_woman_paired") +
+  facet_wrap(~.sample, ncol=3) + 
+  theme_void() + 
+  theme(aspect.ratio=1, legend.position = "none")
+```
+
+In which plot is the light brown bar on the right the tallest?
+
+]
+.right-plot[
+&lt;img src="slides_files/figure-html/unnamed-chunk-12-1.png" width="100%" /&gt;
+]
+---
+class: inverse middle center
+
+# Visual inference broadens the scope of statistics
+
+---
+class: middle
+# Thanks
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan), with **iris theme** created from [xaringanthemer](https://github.com/gadenbuie/xaringanthemer).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+
+Slides are available at [https://dicook.org/files/vISEC20/slides.html](https://dicook.org/files/vISEC20/slides.html) and supporting files at [https://github.com/dicook/vISEC20](https://github.com/dicook/vISEC20).
+
+&lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;&lt;img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /&gt;&lt;/a&gt;&lt;br /&gt;This work is licensed under a &lt;a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"&gt;Creative Commons Attribution-ShareAlike 4.0 International License&lt;/a&gt;.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
