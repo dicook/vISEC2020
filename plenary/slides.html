@@ -36,13 +36,6 @@ background-size: 55%
 
 
 
----
-# Some motivational examples
-
-coccid host-species plots
-ALA north south
-bushfire locations
-richness and 
 
 ---
 class: inverse middle center
@@ -138,9 +131,7 @@ Observed value of the statistic
 
 ---
 
-.left-code[
-
-Try another one. Sightings and forest habitat.
+.left-full[
 
 
 ```r
@@ -151,24 +142,33 @@ Try another one. Sightings and forest habitat.
   extra nice styling
 ```
 
-*Mapping requires call to* `stat=count`, though.
+For sighted vs forest habitate the *mapping requires call to* `stat=count`:
 
-.small.center[
 
-```r
-sighted forest count
---------------------
-TRUE    TRUE   266
-TRUE    FALSE  560
-FALSE   TRUE   312
-FALSE   FALSE 1188
 ```
+## # A tibble: 4 x 3
+## # Groups:   sighted [2]
+##   sighted forest count
+##   &lt;lgl&gt;   &lt;lgl&gt;  &lt;int&gt;
+## 1 FALSE   FALSE   1176
+## 2 FALSE   TRUE     324
+## 3 TRUE    FALSE    560
+## 4 TRUE    TRUE     266
+```
+
 ]
-]
+
 .right-plot[
+
+Observed value of statistic
 
 &lt;img src="slides_files/figure-html/unnamed-chunk-6-1.png" width="100%" /&gt;
 ]
+
+---
+class: inverse middle center
+
+# Inference for graphics infrastructure
 
 ---
 background-image: url(images/vis_inf.png)
@@ -183,7 +183,7 @@ What's the null? What would be uninteresting?
 
 
 ```r
-*ggplot(DATA) +
+ggplot(DATA) + 
   geom_POINT(
 *   aes(x=x, y=y, colour=sighted),
     alpha=0.7) +
@@ -232,7 +232,11 @@ ggplot(DATA) +
 Null generating mechanism could also be permute the labels of sighted (or forest) variable. (Or could simulate from a binomial.)
 ]
 ---
+class: inverse middle center
 
+# Pretend you haven't seen the data plot
+
+---
 .left-code[
 
 ```r
@@ -277,10 +281,31 @@ In which plot is the light brown bar on the right the tallest?
 .right-plot[
 &lt;img src="slides_files/figure-html/unnamed-chunk-12-1.png" width="100%" /&gt;
 ]
+
+---
+
+In each case the data plot was identifiable, reject the null hypothesis
+
 ---
 class: inverse middle center
 
 # Visual inference broadens the scope of statistics
+
+---
+
+Let's do a real one:wasps
+
+---
+
+Summary of experiment
+
+---
+
+Soybean example
+
+---
+
+Computer vision experiments
 
 ---
 class: middle
