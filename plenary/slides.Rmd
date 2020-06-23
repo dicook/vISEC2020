@@ -400,6 +400,11 @@ Choose the plot that you think exhibits the `r anicon::nia("most separation", si
 
 ---
 
+`r countdown::countdown(1, font_size="1em", top="5%", left="45%")`
+
+<br>
+<br>
+
 ```{r lineup of the wasps, out.width="100%", fig.width=9, fig.height=4.5}
 wasp.lda <- lda(Group~., data=wasps[,-1])
 wasp.ld <- predict(wasp.lda, dimen=2)$x
@@ -430,7 +435,6 @@ ggplot(d, aes(x=LD1, y=LD2, colour=Group)) +
         panel.spacing.y=unit(1, "lines"))
 ```
 
-`r countdown::countdown(1, font_size="1em", top="85%", left="45%")`
 ---
 
 .pull-left[
