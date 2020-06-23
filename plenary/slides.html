@@ -152,8 +152,8 @@ For sighted vs forest habitate the *mapping requires call to* `stat=count`:
 ## # Groups:   sighted [2]
 ##   sighted forest count
 ##   &lt;lgl&gt;   &lt;lgl&gt;  &lt;int&gt;
-## 1 FALSE   FALSE   1201
-## 2 FALSE   TRUE     299
+## 1 FALSE   FALSE   1182
+## 2 FALSE   TRUE     318
 ## 3 TRUE    FALSE    560
 ## 4 TRUE    TRUE     266
 ```
@@ -335,7 +335,7 @@ Choose the plot that you think exhibits the <span class=" faa-vertical animated 
 
 &lt;img src="slides_files/figure-html/lineup of the wasps-1.png" width="100%" /&gt;
 
-<div class="countdown" id="timer_5ef1a453" style="top:85%;left:45%;font-size:1em;" data-warnwhen="0">
+<div class="countdown" id="timer_5ef1ada2" style="top:85%;left:45%;font-size:1em;" data-warnwhen="0">
 <code class="countdown-time"><span class="countdown-digits minutes">01</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 ---
@@ -346,11 +346,81 @@ The data plot is
 &lt;img src="slides_files/figure-html/true wasp data plot-1.png" width="90%" /&gt;
 ]
 .pull-right[
-&lt;img src="images/toth_PRSB_2010.png" style="width: 90%; align: center" /&gt;
 
-It is the same data, as shown before. But I think that no-one noticed this. 
+My guess is that nobody picked it?
+
 ]
 
+---
+
+.pull-left[
+&lt;img src="images/toth_PRSB_2010.png" style="width: 80%; align: center" /&gt;
+
+&gt; LDA resulted in ... that gynes had the most divergent expression patterns
+
+.footnote[Toth et al (2010) Proc. of the Royal Society]
+]
+
+--
+
+.pull-right[
+&lt;img src="images/toth_Science_2007.png" style="width: 75%; align: center" /&gt;
+
+&gt; ... show that foundress and worker brain profiles are more similar to each other than to the other groups.
+
+.footnote[Toth et al (2007) Science]
+]
+---
+
+---
+
+.pull-left[
+True data 
+
+&lt;img src="slides_files/figure-html/true wasp data plot again-1.png" width="90%" /&gt;
+]
+.pull-right[
+
+Null data
+
+&lt;img src="slides_files/figure-html/null wasp data plot-1.png" width="90%" /&gt;
+
+]
+---
+class: inverse middle center
+
+Space is big, and with few data points, classes can easily be separated
+
+--
+
+<span class=" faa-wrench animated faa-slow " style=" color:#B86BB3; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">spuriously</span>
+
+--
+
+&lt;br&gt;
+&lt;br&gt;
+
+<span class="fa-2x faa-vertical animated faa-slow " style=" color:#75A34D; display: -moz-inline-stack; display: inline-block; transform: rotate(0deg);">The lineup protocol can help people understand the problem</span>
+
+---
+
+If you first do dimension reduction (e.g. PCA), and then LDA, the problem goes away. LDA into three dimensions shown below. 
+
+.pull-left[
+
+All data
+
+&lt;img src="images/wasps_true.gif" style="width: 75%; align: center" /&gt;
+
+]
+
+.pull-right[
+
+Top 12 PCs
+
+&lt;img src="images/wasps_pca_true.gif" style="width: 75%; align: center" /&gt;
+
+]
 ---
 
 Summary of experiment

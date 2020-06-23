@@ -434,13 +434,100 @@ ggplot(true, aes(x=LD1, y=LD2, colour=Group)) +
 ```
 ]
 .pull-right[
-<img src="images/toth_PRSB_2010.png" style="width: 90%; align: center" />
 
-It is the same data, as shown before. But I think that no-one noticed this. 
+My guess is that nobody picked it?
+
 ]
 
 ---
 
+.pull-left[
+<img src="images/toth_PRSB_2010.png" style="width: 80%; align: center" />
+
+> LDA resulted in ... that gynes had the most divergent expression patterns
+
+.footnote[Toth et al (2010) Proc. of the Royal Society]
+]
+
+--
+
+.pull-right[
+<img src="images/toth_Science_2007.png" style="width: 75%; align: center" />
+
+> ... show that foundress and worker brain profiles are more similar to each other than to the other groups.
+
+.footnote[Toth et al (2007) Science]
+]
+---
+
+
+.pull-left[
+True data 
+
+```{r true wasp data plot again, out.width="90%", fig.width=3, fig.height=3}
+ggplot(true, aes(x=LD1, y=LD2, colour=Group)) + 
+  geom_point() + 
+  scale_colour_brewer(palette="Dark2") +
+  theme(aspect.ratio=1, legend.position="none")
+```
+]
+.pull-right[
+
+Null data
+
+```{r null wasp data plot, out.width="90%", fig.width=3, fig.height=3}
+ggplot(d %>% filter(.sample==7), aes(x=LD1, y=LD2, colour=Group)) + 
+  geom_point() + 
+  scale_colour_brewer(palette="Dark2") +
+  theme(aspect.ratio=1, legend.position="none")
+```
+
+]
+---
+class: inverse middle center
+
+Space is big, and with few data points, classes can easily be separated
+
+--
+
+`r anicon::nia("spuriously", size=1, speed="slow", animate="wrench", colour="#B86BB3")`
+
+--
+
+<br>
+<br>
+
+`r anicon::nia("The lineup protocol can help people understand the problem", size=2, speed="slow", animate="vertical", colour="#75A34D")`
+
+---
+
+If you first do dimension reduction (e.g. PCA), and then LDA, the problem goes away. LDA into three dimensions shown below. 
+
+.pull-left[
+
+All data
+
+<img src="images/wasps_true.gif" style="width: 75%; align: center" />
+
+]
+
+.pull-right[
+
+Top 12 PCs
+
+<img src="images/wasps_pca_true.gif" style="width: 75%; align: center" />
+
+]
+---
+class: inverse middle center
+
+# What's that you say? That people can't look at this many plots?
+
+--
+
+`r anicon::nia("Crowd-sourcing can help here", size=2, speed="slow", animate="passing", colour="#75A34D")`
+
+---
 Summary of experiment
 
 ---
