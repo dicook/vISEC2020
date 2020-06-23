@@ -528,7 +528,27 @@ class: inverse middle center
 `r anicon::nia("Crowd-sourcing can help here", size=2, speed="slow", animate="passing", colour="#75A34D")`
 
 ---
-Summary of experiment
+# Validation experiment
+
+[Majumder et al (2013)](https://www.tandfonline.com/doi/abs/10.1080/01621459.2013.808157) conducted validation study to compare the performance of the lineup protocol, assessed by human evaluators, in comparison to the classical test, using subjects employed with Amazon's Mechanical Turk.
+
+---
+# Explanation of experiment
+
+.left-full[
+
+- $H_o: \beta_k = 0 ~~vs ~~H_a: \beta_k \neq 0$
+- 70 lineups of size 20 plots: $n=100, 300; \beta \in [-6, 4.5]; \sigma=5, 12$
+- 351 evaluations by human subjects
+- Read about it at http://datascience.unomaha.edu/turk/exp2/index.html
+
+]
+
+.right-plot[
+
+<img src="images/plot_turk2_300_150_5_3.png" width="100%">
+
+]
 
 ---
 
