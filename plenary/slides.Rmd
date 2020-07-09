@@ -808,7 +808,7 @@ Here's what I hope you heard:
 
 - Plots can be embedded into an inferential framework
 - This extends the applicability of statistics to more complex problems
-- Crowd-sourcing can help mange plot evaluation
+- Crowd-sourcing can help manage plot evaluation
 - Computer vision models are promising ways to scale up
 
 ---
